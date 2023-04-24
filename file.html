@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Edge {
+        constructor(destination) {
+          this.destination = destination;
+        }
+      }
+
+      class Vertex {
+        constructor(data) {
+          this.data = data;
+          this.edges = [];
+        }
+
+        addEdge(edge) {
+          this.edges.push(edge);
+        }
+
+        print() {
+          const edgeList = this.edges.map((edge) => edge.destination.data);
+          const output = `${this.data} --> ${edgeList.join(", ")}`;
+          console.log(output);
+        }
+      }
+
+      class Graph {
+        constructor() {
+          this.vertices = [];
+        }
+
+        addVertex(data) {
+          const newVertex = new Vertex(data);
+          this.vertices.push(newVertex);
+
+          return newVertex;
+        }
+
+        addEdge(vertexOne, vertexTwo) {
+          if (
+            !(vertexOne instanceof Vertex) ||
+            !(vertexTwo instanceof Vertex)
+          ) {
+            throw new Error(
+              "Both arguments must be instances of the Vertex class."
+            );
+          }
+
+          const edgeOne = new Edge(vertexTwo);
+          vertexOne.addEdge(edgeOne);
+
+          const edgeTwo = new Edge(vertexOne);
+          vertexTwo.addEdge(edgeTwo);
+        }
+
+        print() {
+          this.vertices.forEach((vertex) => vertex.print());
+        }
+      }
+
+      const friendNetwork = new Graph();
+      const friendSara = friendNetwork.addVertex("Sara");
+      const friendMeera = friendNetwork.addVertex("Meera");
+      friendNetwork.addEdge(friendSara, friendMeera);
+      friendNetwork.print();
+    </script>
+  </body>
+</html>
