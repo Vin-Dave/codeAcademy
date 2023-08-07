@@ -40,17 +40,24 @@ function changeImg() {
 
   changeDot();
 }
-const setTimeFrame = setInterval(changeImg, 1000);
+let setTimeFrame = setInterval(changeImg, 1000);
 
 function clickKey(e) {
-  if (e.keyCode === 39) {
+  if (e.keyCode == 39 || e.keyCode == 37) {
     clearInterval(setTimeFrame);
+    e.keyCode == 37 ? actuallyInx-- : actuallyInx++;
+    if (actuallyInx >= dotSpan.length) {
+      actuallyInx = 0;
+    } else if (actuallyInx < 0) {
+      actuallyInx = dotSpan.length - 1;
+    }
 
-    changeImg();
-  } else if (e.keyCode == 37) {
-    changeImg();
+    imgFrame.src = obj[actuallyInx].img;
+    h1Contain.textContent = obj[actuallyInx].text;
 
-    console.log(e.keyCode);
+    changeDot();
+
+    setTimeFrame = setInterval(changeImg, 3000);
   }
 }
 window.addEventListener("keydown", clickKey);
